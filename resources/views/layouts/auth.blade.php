@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ config('app.name') }} | Log in</title>
-    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <link rel="icon" href="{{ url($setting->path_logo) }}" type="image/png">
@@ -13,25 +12,24 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE-2/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-2/bower_components/font-awesome/css/font-awesome.min.css') }}">
-    <!-- Theme style -->
+    <!-- AdminLTE base -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-2/dist/css/AdminLTE.min.css') }}">
-    <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-2/plugins/iCheck/square/blue.css') }}">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-    <!-- Google Font -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="{{ asset('css/modern.css') }}">
+    <link rel="manifest" href="{{ url('/manifest.json') }}">
+    <meta name="theme-color" content="#1976D2">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{ $setting->nama_perusahaan ?? config('app.name') }}">
+    <link rel="apple-touch-icon" href="{{ url($setting->path_logo) }}">
 </head>
-<body class="hold-transition login-page">
-    
-    @yield('login')
+<body class="hold-transition modern-login-page">
+    <div class="modern-login-screen">
+        @yield('login')
+    </div>
 
     <!-- jQuery 3 -->
     <script src="{{ asset('AdminLTE-2/bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -50,6 +48,15 @@
             });
         });
         $('.form-login').validator();
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('{{ asset("sw.js") }}')
+                    .then(function (reg) { console.log('ServiceWorker registered', reg.scope); })
+                    .catch(function (err) { console.warn('ServiceWorker registration failed:', err); });
+            });
+        }
     </script>
 </body>
 </html>

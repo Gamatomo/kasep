@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Cabang;
 use PDF;
 
 class ProdukController extends Controller
@@ -17,48 +18,58 @@ class ProdukController extends Controller
     public function index()
     {
         $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
+        $cabang = Cabang::all()->pluck('nama_cabang', 'id');
+        // dd($cabang);
+        // dd($kategori);
 
-        return view('produk.index', compact('kategori'));
+        return view('produk.index', compact('kategori', 'cabang'));
     }
 
-    public function data()
-    {
-        $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
-            ->select('produk.*', 'nama_kategori')
-            ->orderBy('kode_produk', 'asc')
-            ->get();
+   public function data()
+{
+    $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
+        ->leftJoin('cabang', 'cabang.id', 'produk.id_cabang')
+        ->select('produk.*', 'nama_kategori', 'cabang.nama_cabang as nama_cabang')
+        ->orderBy('kode_produk', 'asc')
+        ->get();
+        // dd($produk);
 
-        return datatables()
-            ->of($produk)
-            ->addIndexColumn()
-            ->addColumn('select_all', function ($produk) {
-                return '
-                    <input type="checkbox" name="id_produk[]" value="'. $produk->id_produk .'">
-                ';
-            })
-            ->addColumn('kode_produk', function ($produk) {
-                return '<span class="label label-success">'. $produk->kode_produk .'</span>';
-            })
-            ->addColumn('harga_beli', function ($produk) {
-                return format_uang($produk->harga_beli);
-            })
-            ->addColumn('harga_jual', function ($produk) {
-                return format_uang($produk->harga_jual);
-            })
-            ->addColumn('stok', function ($produk) {
-                return format_uang($produk->stok);
-            })
-            ->addColumn('aksi', function ($produk) {
-                return '
-                <div class="btn-group">
-                    <button type="button" onclick="editForm(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
-                    <button type="button" onclick="deleteData(`'. route('produk.destroy', $produk->id_produk) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
-                </div>
-                ';
-            })
-            ->rawColumns(['aksi', 'kode_produk', 'select_all'])
-            ->make(true);
-    }
+    return datatables()
+        ->of($produk)
+        ->addIndexColumn()
+        ->addColumn('select_all', function ($produk) {
+            return '<input type="checkbox" name="id_produk[]" value="'. $produk->id_produk .'">';
+        })
+        ->addColumn('kode_produk', function ($produk) {
+            return '<span class="label label-success">'. $produk->kode_produk .'</span>';
+        })
+        ->addColumn('harga_beli', function ($produk) {
+            return format_uang($produk->harga_beli);
+        })
+        ->addColumn('harga_jual', function ($produk) {
+            return format_uang($produk->harga_jual);
+        })
+        ->addColumn('stok', function ($produk) {
+            return format_uang($produk->stok);
+        })
+        ->addColumn('nama_kategori', function ($produk) {
+            return $produk->nama_kategori;
+        })
+        ->addColumn('nama_cabang', function ($produk) {
+            return $produk->nama_cabang;
+        })
+        ->addColumn('aksi', function ($produk) {
+            return '
+            <div class="btn-group">
+                <button type="button" onclick="showDetail(`'. route('produk.show', $produk->id_produk) .'`, `Detail Produk`)" class="btn btn-xs btn-primary btn-detail"><i class="fa fa-eye"></i></button>
+                <button type="button" onclick="editForm(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
+                <button type="button" onclick="deleteData(`'. route('produk.destroy', $produk->id_produk) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+            </div>';
+        })
+        ->rawColumns(['aksi', 'kode_produk', 'select_all'])
+        ->make(true);
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -79,7 +90,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $produk = Produk::latest()->first() ?? new Produk();
-        $request['kode_produk'] = 'P'. tambah_nol_didepan((int)$produk->id_produk +1, 6);
+        $request['kode_produk'] = $request->kode_produk;
 
         $produk = Produk::create($request->all());
 

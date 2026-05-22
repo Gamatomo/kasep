@@ -35,12 +35,13 @@ class MemberController extends Controller
                 return '<span class="label label-success">'. $member->kode_member .'<span>';
             })
             ->addColumn('aksi', function ($member) {
-                return '
-                <div class="btn-group">
-                    <button type="button" onclick="editForm(`'. route('member.update', $member->id_member) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
-                    <button type="button" onclick="deleteData(`'. route('member.destroy', $member->id_member) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
-                </div>
-                ';
+                    return '
+                    <div class="btn-group">
+                        <button type="button" onclick="showDetail(`'. route('member.show', $member->id_member) .'`, `Detail Member`)" class="btn btn-xs btn-primary btn-detail"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="editForm(`'. route('member.update', $member->id_member) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
+                        <button type="button" onclick="deleteData(`'. route('member.destroy', $member->id_member) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    </div>
+                    ';
             })
             ->rawColumns(['aksi', 'select_all', 'kode_member'])
             ->make(true);

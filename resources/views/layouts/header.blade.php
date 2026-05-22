@@ -1,59 +1,35 @@
-<header class="main-header">
-    <!-- Logo -->
-    <a href="index2.html" class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        @php
-            $words = explode(' ', $setting->nama_perusahaan);
-            $word  = '';
-            foreach ($words as $w) {
-                $word .= $w[0];
-            }
-        @endphp
-        <span class="logo-mini">{{ $word }}</span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>{{ $setting->nama_perusahaan }}</b></span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-            <span class="sr-only">Toggle navigation</span>
+<header class="modern-header">
+    <div class="modern-header-brand">
+        <button class="modern-sidebar-toggle" data-action="toggle-sidebar" aria-label="Toggle sidebar">
+            <i class="fa fa-bars"></i>
+        </button>
+        <a href="{{ route('dashboard') }}" class="modern-brand-link">
+            <img src="{{ url($setting->path_logo) }}" alt="Logo" class="modern-brand-logo">
+            <span>{{ $setting->nama_perusahaan }}</span>
         </a>
+    </div>
 
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <!-- User Account: style can be found in dropdown.less -->
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ url(auth()->user()->foto ?? '') }}" class="user-image img-profil"
-                            alt="User Image">
-                        <span class="hidden-xs">{{ auth()->user()->name }}</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header">
-                            <img src="{{ url(auth()->user()->foto ?? '') }}" class="img-circle img-profil"
-                                alt="User Image">
-
-                            <p>
-                                {{ auth()->user()->name }} - {{ auth()->user()->email }}
-                            </p>
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="{{ route('user.profil') }}" class="btn btn-default btn-flat">Profil</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat"
-                                    onclick="$('#logout-form').submit()">Keluar</a>
-                            </div>
-                        </li>
-                    </ul>
+    <div class="modern-header-actions">
+        <div class="dropdown modern-user-dropdown">
+            <button class="btn modern-user-button dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{ url(auth()->user()->foto ?? '') }}" class="modern-user-avatar" alt="User Image">
+                <span>{{ auth()->user()->name }}</span>
+                <i class="fa fa-chevron-down"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right modern-user-menu">
+                <li class="modern-user-card">
+                    <img src="{{ url(auth()->user()->foto ?? '') }}" class="modern-user-card-avatar" alt="User Image">
+                    <div>
+                        <strong>{{ auth()->user()->name }}</strong>
+                        <p>{{ auth()->user()->email }}</p>
+                    </div>
                 </li>
+                <li class="divider"></li>
+                <li><a href="{{ route('user.profil') }}"><i class="fa fa-user-circle"></i> Profil</a></li>
+                <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Keluar</a></li>
             </ul>
         </div>
-    </nav>
+    </div>
 </header>
 
 <form action="{{ route('logout') }}" method="post" id="logout-form" style="display: none;">

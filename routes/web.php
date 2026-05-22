@@ -14,7 +14,9 @@ use App\Http\Controllers\{
     SettingController,
     SupplierController,
     UserController,
+    FinancialReportController,
 };
+use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +32,34 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
+});
+
+// Dynamic PWA manifest using app settings
+Route::get('/manifest.json', function () {
+    $setting = Setting::first();
+    $manifest = [
+        'name' => $setting->nama_perusahaan ?? config('app.name'),
+        'short_name' => $setting->nama_perusahaan ?? config('app.name'),
+        'start_url' => url('/'),
+        'scope' => url('/'),
+        'display' => 'standalone',
+        'background_color' => '#ffffff',
+        'theme_color' => '#1976D2',
+        'icons' => [
+            [
+                'src' => url($setting->path_logo ?? '/icons/icon-192.png'),
+                'sizes' => '192x192',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => url($setting->path_logo ?? '/icons/icon-512.png'),
+                'sizes' => '512x512',
+                'type' => 'image/png',
+            ],
+        ],
+    ];
+
+    return response()->json($manifest);
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -88,6 +118,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
 
+        Route::get('/accounting/reports', [FinancialReportController::class, 'index'])->name('accounting.reports.index');
+        Route::get('/accounting/balance-sheet', [FinancialReportController::class, 'showBalanceSheet'])->name('accounting.balance_sheet');
+        Route::get('/accounting/income-statement', [FinancialReportController::class, 'showIncomeStatement'])->name('accounting.income_statement');
+        Route::get('/accounting/changes-in-equity', [FinancialReportController::class, 'showChangesInEquity'])->name('accounting.changes_in_equity');
+        Route::get('/accounting/cash-flow', [FinancialReportController::class, 'showCashFlow'])->name('accounting.cash_flow');
+        Route::get('/api/accounting/balance-sheet', [FinancialReportController::class, 'balanceSheet'])->name('api.accounting.balance_sheet');
+        Route::get('/api/accounting/income-statement', [FinancialReportController::class, 'incomeStatement'])->name('api.accounting.income_statement');
+        Route::get('/api/accounting/statement-of-changes', [FinancialReportController::class, 'statementOfChangesInEquity'])->name('api.accounting.statement_of_changes');
+        Route::get('/api/accounting/cash-flow', [FinancialReportController::class, 'cashFlowStatement'])->name('api.accounting.cash_flow');
+
         Route::get('/user/data', [UserController::class, 'data'])->name('user.data');
         Route::resource('/user', UserController::class);
 
@@ -95,7 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/setting/first', [SettingController::class, 'show'])->name('setting.show');
         Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
     });
- 
+
     Route::group(['middleware' => 'level:1,2'], function () {
         Route::get('/profil', [UserController::class, 'profil'])->name('user.profil');
         Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');

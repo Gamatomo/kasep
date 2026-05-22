@@ -23,7 +23,7 @@
             <div class="box-body table-responsive">
                 <form action="" method="post" class="form-produk">
                     @csrf
-                    <table class="table table-stiped table-bordered">
+                    <table class="table table-stiped table-bordered table-produk">
                         <thead>
                             <th width="5%">
                                 <input type="checkbox" name="select_all" id="select_all">
@@ -32,6 +32,7 @@
                             <th>Kode</th>
                             <th>Nama</th>
                             <th>Kategori</th>
+                            <th>Cabang</th>
                             <th>Merk</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
@@ -66,6 +67,7 @@
                 {data: 'kode_produk'},
                 {data: 'nama_produk'},
                 {data: 'nama_kategori'},
+                {data: 'nama_cabang'},
                 {data: 'merk'},
                 {data: 'harga_beli'},
                 {data: 'harga_jual'},

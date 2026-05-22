@@ -129,6 +129,17 @@
                                     <input type="text" id="kembali" name="kembali" class="form-control" value="0" readonly>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="metode" class="col-lg-2 control-label">Metode</label>
+                                <div class="col-lg-8">
+                                    <select name="metode" id="metode" class="form-control" required>
+                                        <option value="">Pilih Metode Pembayaran</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Qris">Qris</option>
+                                        <option value="Transfer">Transfer</option>
+                                    </select>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

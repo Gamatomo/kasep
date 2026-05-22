@@ -1,7 +1,6 @@
-<footer class="main-footer">
-    <div class="pull-right hidden-xs">
-        <b>Version</b> 1.1
+<footer class="modern-footer">
+    <div class="modern-footer-row">
+        <span><strong>Copyright &copy; {{ date('Y') }}</strong> <a href="/">{{ $setting->nama_perusahaan }}</a>. All rights reserved.</span>
+        <span class="modern-footer-version"><strong>Version</strong> 1.1</span>
     </div>
-    <strong>Copyright &copy; {{ date('Y') }} <a href="/">{{ $setting->nama_perusahaan }}</a>.</strong> All rights
-    reserved.
 </footer>

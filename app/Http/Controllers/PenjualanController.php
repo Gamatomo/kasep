@@ -42,6 +42,9 @@ class PenjualanController extends Controller
             ->editColumn('diskon', function ($penjualan) {
                 return $penjualan->diskon . '%';
             })
+            ->editColumn('metode', function ($penjualan) {
+                return $penjualan->metode ?? '';
+            })
             ->editColumn('kasir', function ($penjualan) {
                 return $penjualan->user->name ?? '';
             })
@@ -66,6 +69,7 @@ class PenjualanController extends Controller
         $penjualan->diskon = 0;
         $penjualan->bayar = 0;
         $penjualan->diterima = 0;
+        $penjualan->metode = "Cash";
         $penjualan->id_user = auth()->id();
         $penjualan->save();
 
@@ -75,6 +79,7 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $penjualan = Penjualan::findOrFail($request->id_penjualan);
         $penjualan->id_member = $request->id_member;
         $penjualan->total_item = $request->total_item;
@@ -82,6 +87,7 @@ class PenjualanController extends Controller
         $penjualan->diskon = $request->diskon;
         $penjualan->bayar = $request->bayar;
         $penjualan->diterima = $request->diterima;
+        $penjualan->metode = $request->metode;
         $penjualan->update();
 
         $detail = PenjualanDetail::where('id_penjualan', $penjualan->id_penjualan)->get();

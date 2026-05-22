@@ -20,7 +20,7 @@
             <div class="box-body table-responsive">
                 <form action="" method="post" class="form-member">
                     @csrf
-                    <table class="table table-stiped table-bordered">
+                    <table class="table table-stiped table-bordered table-member">
                         <thead>
                             <th width="5%">
                                 <input type="checkbox" name="select_all" id="select_all">

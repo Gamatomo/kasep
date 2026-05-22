@@ -57,13 +57,14 @@
 <body onload="window.print()">
     <button class="btn-print" style="position: absolute; right: 1rem; top: rem;" onclick="window.print()">Print</button>
     <div class="text-center">
+        <img src="{{ asset('img/logo-20250125034911.png') }}" alt="" width="100px">
         <h3 style="margin-bottom: 5px;">{{ strtoupper($setting->nama_perusahaan) }}</h3>
         <p>{{ strtoupper($setting->alamat) }}</p>
     </div>
     <br>
     <div>
-        <p style="float: left;">{{ date('d-m-Y') }}</p>
-        <p style="float: right">{{ strtoupper(auth()->user()->name) }}</p>
+        <p style="float: left;">TANGGAL TRANSAKSI: {{ date('d-m-Y') }}</p>
+        <p style="float: right">KASIR: {{ strtoupper(auth()->user()->name) }}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
     <p>No: {{ tambah_nol_didepan($penjualan->id_penjualan, 10) }}</p>
@@ -95,7 +96,7 @@
         </tr>
         <tr>
             <td>Diskon:</td>
-            <td class="text-right">{{ format_uang($penjualan->diskon) }}</td>
+            <td class="text-right">{{ format_uang($penjualan->diskon) }} %</td>
         </tr>
         <tr>
             <td>Total Bayar:</td>
@@ -113,6 +114,7 @@
 
     <p class="text-center">===================================</p>
     <p class="text-center">-- TERIMA KASIH --</p>
+    <p class="text-center">LAYANAN KONSUMEN 0813-4634-9957</p>
 
     <script>
         let body = document.body;
