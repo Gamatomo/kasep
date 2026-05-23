@@ -45,19 +45,65 @@ Route::get('/manifest.json', function () {
         'display' => 'standalone',
         'background_color' => '#ffffff',
         'theme_color' => '#1976D2',
-        'icons' => [
-            [
-                'src' => url($setting->path_logo ?? '/icons/icon-192.png'),
+    ];
+
+    // Try to embed the configured logo as base64 data-URL icons so manifest
+    // remains valid even if separate icon files aren't present on disk.
+    $icons = [];
+    $logo = $setting->path_logo ?? null;
+    if ($logo) {
+        $logoPath = public_path(ltrim($logo, '/'));
+        if (file_exists($logoPath)) {
+            $mime = @mime_content_type($logoPath) ?: 'image/png';
+            $data = base64_encode(file_get_contents($logoPath));
+            $dataUrl = 'data:'.$mime.';base64,'.$data;
+
+            $icons[] = [
+                'src' => $dataUrl,
+                'sizes' => '192x192',
+                'type' => $mime,
+                'purpose' => 'any maskable',
+            ];
+            $icons[] = [
+                'src' => $dataUrl,
+                'sizes' => '512x512',
+                'type' => $mime,
+                'purpose' => 'any maskable',
+            ];
+        } else {
+            // Fallback to public URL if file not available on the filesystem
+            $icons[] = [
+                'src' => url($logo),
                 'sizes' => '192x192',
                 'type' => 'image/png',
-            ],
-            [
-                'src' => url($setting->path_logo ?? '/icons/icon-512.png'),
+                'purpose' => 'any maskable',
+            ];
+            $icons[] = [
+                'src' => url($logo),
                 'sizes' => '512x512',
                 'type' => 'image/png',
-            ],
-        ],
-    ];
+                'purpose' => 'any maskable',
+            ];
+        }
+    }
+
+    // Final fallback to expected icon paths
+    if (empty($icons)) {
+        $icons[] = [
+            'src' => url('/img/icon-192x192.png'),
+            'sizes' => '192x192',
+            'type' => 'image/png',
+            'purpose' => 'any maskable',
+        ];
+        $icons[] = [
+            'src' => url('/img/icon-512x512.png'),
+            'sizes' => '512x512',
+            'type' => 'image/png',
+            'purpose' => 'any maskable',
+        ];
+    }
+
+    $manifest['icons'] = $icons;
 
     return response()->json($manifest);
 });

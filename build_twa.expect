@@ -1,0 +1,61 @@
+#!/usr/bin/expect -f
+
+set timeout 300
+
+# Set environment
+set env(JAVA_HOME) /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+set env(PATH) $env(JAVA_HOME)/bin:$env(PATH)
+
+# Read keystore password
+set fp [open "twa-posbontings/keystore_password.txt" r]
+set keystore_pass [gets $fp]
+close $fp
+set env(BUBBLEWRAP_KEYSTORE_PASSWORD) $keystore_pass
+set env(BUBBLEWRAP_KEY_PASSWORD) $keystore_pass
+
+# Change to correct directory
+cd /Users/gamatoto/Downloads/bontings
+
+# Run init
+puts "Starting Bubblewrap init..."
+spawn npx --yes @bubblewrap/cli init --manifest=file:/Users/gamatoto/Downloads/bontings/twa-posbontings/twa-manifest.json --directory=./twa-posbontings
+
+expect "Do you want Bubblewrap to install the JDK"
+send "No\r"
+
+expect "Path to your existing JDK 17"
+send "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk\r"
+
+expect "Do you want Bubblewrap to install the Android SDK"
+send "Y\r"
+
+# Wait for init to complete
+expect eof
+
+puts "\nInit complete, running build..."
+
+# Run build
+spawn npx --yes @bubblewrap/cli build --manifest=./twa-posbontings --signingKeyPath=./twa-posbontings/twa-keystore.jks --signingKeyAlias=twa-key
+
+# Handle potential prompts during build
+while 1 {
+  expect {
+    "Do you want Bubblewrap to install" {
+      send "No\r"
+    }
+    "Path to your existing JDK" {
+      send "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk\r"
+    }
+    "Accept" {
+      send "y\r"
+    }
+    eof {
+      break
+    }
+    timeout {
+      break
+    }
+  }
+}
+
+puts "\nBuild complete!"

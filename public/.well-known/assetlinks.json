@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "id.my.posbontings",
+    "sha256_cert_fingerprints": [
+      "F6:4A:7B:F2:EC:33:C7:C3:22:CD:2B:FD:05:F3:70:C0:95:7D:D9:D2:4A:A8:0C:34:E2:BB:EE:C3:0E:9D:2F:8C"
+    ]
+  }
+}]

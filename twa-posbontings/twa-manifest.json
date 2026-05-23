@@ -1,0 +1,45 @@
+{
+  "packageId": "id.my.posbontings",
+  "host": "https://posbontings.my.id",
+  "name": "Dapur Kasep",
+  "launcherName": "Dapur Kasep",
+  "display": "standalone",
+  "themeColor": "#1976D2",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#FFFFFF",
+  "startUrl": "/",
+  "iconUrl": "http://localhost:8000/img/icon-512x512.png",
+  "maskableIconUrl": "https://posbontings.my.id/img/icon-512x512.png",
+  "signingKey": {
+    "path": "./twa-keystore.jks",
+    "alias": "twa-key"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 2,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://posbontings.my.id/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 21,
+  "orientation": "default",
+  "fingerprints": [
+    {
+      "value": "F6:4A:7B:F2:EC:33:C7:C3:22:CD:2B:FD:05:F3:70:C0:95:7D:D9:D2:4A:A8:0C:34:E2:BB:EE:C3:0E:9D:2F:8C"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "displayOverride": [],
+  "appVersion": "1.0.0"
+}

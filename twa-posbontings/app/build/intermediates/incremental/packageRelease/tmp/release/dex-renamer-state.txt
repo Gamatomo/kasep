@@ -1,0 +1,4 @@
+#Sun May 24 03:32:26 WITA 2026
+base.0=/Users/gamatoto/Downloads/bontings/twa-posbontings/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

@@ -1,0 +1,20 @@
+Starting Laravel development server: http://localhost:8000
+[Sat May 23 23:47:48 2026] PHP 7.4.33 Development Server (http://localhost:8000) started
+[Sat May 23 23:47:50 2026] [::1]:59871 Accepted
+[Sat May 23 23:47:51 2026] [::1]:59871 Closing
+[Sat May 23 23:47:59 2026] [::1]:59884 Accepted
+[Sat May 23 23:47:59 2026] [::1]:59884 Closing
+[Sat May 23 23:48:27 2026] [::1]:59920 Accepted
+[Sat May 23 23:48:27 2026] [::1]:59921 Accepted
+[Sat May 23 23:48:27 2026] [::1]:59921 [200]: GET /img/icon-512x512.png
+[Sat May 23 23:48:27 2026] [::1]:59921 Closing
+[Sat May 23 23:48:27 2026] [::1]:59922 Accepted
+[Sat May 23 23:48:27 2026] [::1]:59922 [200]: GET /img/icon-512x512.png
+[Sat May 23 23:48:27 2026] [::1]:59922 Closing
+[Sat May 23 23:48:27 2026] [::1]:59923 Accepted
+[Sat May 23 23:48:27 2026] [::1]:59923 [200]: GET /img/icon-512x512.png
+[Sat May 23 23:48:27 2026] [::1]:59923 Closing
+[Sat May 23 23:48:27 2026] [::1]:59924 Accepted
+[Sat May 23 23:48:27 2026] [::1]:59924 Closing
+[Sat May 23 23:48:27 2026] [::1]:59920 Closed without sending a request; it was probably just an unused speculative preconnection
+[Sat May 23 23:48:27 2026] [::1]:59920 Closing
