@@ -133,10 +133,11 @@ body.modern-app {
     padding: 1.5rem 1rem;
     color: #cbd5e1;
     transition: width 0.25s ease, opacity 0.25s ease;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
 }
 
 .modern-shell.modern-sidebar-collapsed .modern-sidebar {
@@ -499,10 +500,13 @@ body.modern-app {
         transform: translateX(-100%);
         transition: transform 0.25s ease;
         box-shadow: 2px 0 10px rgba(15, 23, 42, 0.15);
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        padding-bottom: 120px !important;
+        box-sizing: border-box !important;
     }
 
     .modern-sidebar::before {
@@ -523,8 +527,8 @@ body.modern-app {
         transform: translateX(0);
         width: 260px;
         opacity: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
     }
 
     .modern-shell.modern-sidebar-collapsed .modern-sidebar::before {
@@ -550,11 +554,13 @@ body.modern-app {
         width: 100%;
         top: 72px;
         bottom: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-        padding-bottom: 80px;
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        padding-bottom: 120px !important;
+        box-sizing: border-box !important;
     }
 
     .modern-page-header h1 {
