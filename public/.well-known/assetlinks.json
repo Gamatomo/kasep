@@ -1,8 +1,11 @@
 [{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "id.my.posbontings.twa",
-        "sha256_cert_fingerprints": ["D3:35:8B:1F:7B:EE:F4:72:73:34:5E:81:B8:B6:AC:81:CE:13:1F:C4:B0:64:4B:1B:13:F0:EE:38:96:CB:CE:FA"]
-      }
-    }]
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "id.my.dapoerkasep",
+    "sha256_cert_fingerprints": [
+      "F6:4A:7B:F2:EC:33:C7:C3:22:CD:2B:FD:05:F3:70:C0:95:7D:D9:D2:4A:A8:0C:34:E2:BB:EE:C3:0E:9D:2F:8C",
+      "60:9A:5E:D3:4D:31:77:A8:4D:0C:97:31:6E:D3:CD:A2:C9:99:2E:C2:42:94:4E:EE:FB:F5:35:B1:E6:B4:91:23"
+    ]
+  }
+}]

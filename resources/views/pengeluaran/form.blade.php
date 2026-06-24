@@ -12,6 +12,22 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
+                        <label for="kategori_pengeluaran" class="col-lg-2 col-lg-offset-1 control-label">Kategori</label>
+                        <div class="col-lg-6">
+                            <select name="kategori_pengeluaran" id="kategori_pengeluaran" class="form-control" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="Bahan Baku">Bahan Baku</option>
+                                <option value="Listrik & Air">Listrik & Air</option>
+                                <option value="Gaji Karyawan">Gaji Karyawan</option>
+                                <option value="Sewa Tempat">Sewa Tempat</option>
+                                <option value="Pemeliharaan">Pemeliharaan</option>
+                                <option value="Pemasaran">Pemasaran</option>
+                                <option value="Operasional Lainnya">Operasional Lainnya</option>
+                            </select>
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="deskripsi" class="col-lg-2 col-lg-offset-1 control-label">Deskripsi</label>
                         <div class="col-lg-6">
                             <input type="text" name="deskripsi" id="deskripsi" class="form-control" required autofocus>

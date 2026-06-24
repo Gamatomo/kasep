@@ -1,6 +1,6 @@
 {
-  "packageId": "id.my.posbontings",
-  "host": "https://posbontings.my.id",
+  "packageId": "id.my.dapoerkasep",
+  "host": "https://dapoerkasep.my.id",
   "name": "Dapur Kasep",
   "launcherName": "Dapur Kasep",
   "display": "standalone",
@@ -11,9 +11,9 @@
   "navigationDividerColor": "#000000",
   "navigationDividerColorDark": "#000000",
   "backgroundColor": "#FFFFFF",
-  "startUrl": "/",
-  "iconUrl": "http://localhost:8000/img/icon-512x512.png",
-  "maskableIconUrl": "https://posbontings.my.id/img/icon-512x512.png",
+  "startUrl": "/login",
+  "iconUrl": "https://dapoerkasep.my.id/img/icon-512x512.png",
+  "maskableIconUrl": "https://dapoerkasep.my.id/img/icon-512x512.png",
   "signingKey": {
     "path": "./twa-keystore.jks",
     "alias": "twa-key"
@@ -22,7 +22,7 @@
   "appVersionCode": 2,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
-  "webManifestUrl": "https://posbontings.my.id/manifest.json",
+  "webManifestUrl": "https://dapoerkasep.my.id/manifest.json",
   "fallbackType": "customtabs",
   "features": {},
   "alphaDependencies": {

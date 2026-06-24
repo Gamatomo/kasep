@@ -46,14 +46,14 @@
         <!-- small box -->
         <div class="small-box bg-yellow">
             <div class="inner">
-                <h3>{{ $member }}</h3>
+                <h3>{{ $penjualan_count }}</h3>
 
-                <p>Total Member</p>
+                <p>Total Penjualan</p>
             </div>
             <div class="icon">
-                <i class="fa fa-id-card"></i>
+                <i class="fa fa-shopping-cart"></i>
             </div>
-            <a href="{{ route('member.index') }}" class="small-box-footer">Lihat <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('penjualan.index') }}" class="small-box-footer">Lihat <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -61,14 +61,14 @@
         <!-- small box -->
         <div class="small-box bg-red">
             <div class="inner">
-                <h3>{{ $supplier }}</h3>
+                <h3>{{ $pengeluaran_count }}</h3>
 
-                <p>Total Supplier</p>
+                <p>Total Pengeluaran</p>
             </div>
             <div class="icon">
-                <i class="fa fa-truck"></i>
+                <i class="fa fa-money"></i>
             </div>
-            <a href="{{ route('supplier.index') }}" class="small-box-footer">Lihat <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('pengeluaran.index') }}" class="small-box-footer">Lihat <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->

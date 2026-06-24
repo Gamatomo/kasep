@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $query->where('level', '!=', 1);
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'user_id', 'id');
+    }
 }

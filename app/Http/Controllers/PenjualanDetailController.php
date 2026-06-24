@@ -2,27 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
 use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\Produk;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class PenjualanDetailController extends Controller
 {
     public function index()
     {
-        $produk = Produk::orderBy('nama_produk')->get();
-        $member = Member::orderBy('nama')->get();
-        $diskon = Setting::first()->diskon ?? 0;
+        $kategoriMain = \App\Models\Kategori::where('nama_kategori', 'Mix Topping Series')->first();
+        $produk = Produk::where('id_kategori', $kategoriMain->id_kategori ?? 0)->orderBy('nama_produk')->get();
+        
+        $kategoriMie = \App\Models\Kategori::where('nama_kategori', 'Pilihan Mie')->first();
+        $mie = Produk::where('id_kategori', $kategoriMie->id_kategori ?? 0)->get();
+
+        $kategoriKuah = \App\Models\Kategori::where('nama_kategori', 'Jenis Kuah')->first();
+        $kuah = Produk::where('id_kategori', $kategoriKuah->id_kategori ?? 0)->get();
+
+        $kategoriLevel = \App\Models\Kategori::where('nama_kategori', 'Pilihan Level')->first();
+        $level = Produk::where('id_kategori', $kategoriLevel->id_kategori ?? 0)->get();
+
+        $kategoriTopping = \App\Models\Kategori::where('nama_kategori', 'Topping Tambahan')->first();
+        $topping = Produk::where('id_kategori', $kategoriTopping->id_kategori ?? 0)->get();
 
         // Cek apakah ada transaksi yang sedang berjalan
         if ($id_penjualan = session('id_penjualan')) {
             $penjualan = Penjualan::find($id_penjualan);
-            $memberSelected = $penjualan->member ?? new Member();
 
-            return view('penjualan_detail.index', compact('produk', 'member', 'diskon', 'id_penjualan', 'penjualan', 'memberSelected'));
+            return view('penjualan_detail.index', compact('produk', 'mie', 'kuah', 'level', 'topping', 'id_penjualan', 'penjualan'));
         } else {
             if (auth()->user()->level == 1) {
                 return redirect()->route('transaksi.baru');
@@ -48,7 +56,6 @@ class PenjualanDetailController extends Controller
             $row['nama_produk'] = $item->produk['nama_produk'];
             $row['harga_jual']  = 'Rp. '. format_uang($item->harga_jual);
             $row['jumlah']      = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_penjualan_detail .'" value="'. $item->jumlah .'">';
-            $row['diskon']      = $item->diskon . '%';
             $row['subtotal']    = 'Rp. '. format_uang($item->subtotal);
             $row['aksi']        = '<div class="btn-group">
                                     <button onclick="deleteData(`'. route('transaksi.destroy', $item->id_penjualan_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
@@ -65,7 +72,6 @@ class PenjualanDetailController extends Controller
             'nama_produk' => '',
             'harga_jual'  => '',
             'jumlah'      => '',
-            'diskon'      => '',
             'subtotal'    => '',
             'aksi'        => '',
         ];
@@ -79,19 +85,50 @@ class PenjualanDetailController extends Controller
 
     public function store(Request $request)
     {
-        $produk = Produk::where('id_produk', $request->id_produk)->first();
-        if (! $produk) {
-            return response()->json('Data gagal disimpan', 400);
+        $items_to_add = [];
+
+        // Base Product
+        if ($request->id_produk) {
+            $items_to_add[] = ['id' => $request->id_produk, 'qty' => 1];
         }
 
-        $detail = new PenjualanDetail();
-        $detail->id_penjualan = $request->id_penjualan;
-        $detail->id_produk = $produk->id_produk;
-        $detail->harga_jual = $produk->harga_jual;
-        $detail->jumlah = 1;
-        $detail->diskon = 0;
-        $detail->subtotal = $produk->harga_jual;
-        $detail->save();
+        // Mie
+        if ($request->id_mie) {
+            $items_to_add[] = ['id' => $request->id_mie, 'qty' => 1];
+        }
+
+        // Kuah
+        if ($request->id_kuah) {
+            $items_to_add[] = ['id' => $request->id_kuah, 'qty' => 1];
+        }
+
+        // Level
+        if ($request->id_level) {
+            $items_to_add[] = ['id' => $request->id_level, 'qty' => 1];
+        }
+
+        // Toppings
+        if ($request->has('toppings')) {
+            foreach ($request->toppings as $topping_id => $qty) {
+                if ($qty > 0) {
+                    $items_to_add[] = ['id' => $topping_id, 'qty' => $qty];
+                }
+            }
+        }
+
+        foreach ($items_to_add as $item) {
+            $produk = Produk::where('id_produk', $item['id'])->first();
+            if (! $produk) continue;
+
+            $detail = new PenjualanDetail();
+            $detail->id_penjualan = $request->id_penjualan;
+            $detail->id_produk = $produk->id_produk;
+            $detail->harga_jual = $produk->harga_jual;
+            $detail->jumlah = $item['qty'];
+            $detail->diskon = 0;
+            $detail->subtotal = $produk->harga_jual * $item['qty'];
+            $detail->save();
+        }
 
         return response()->json('Data berhasil disimpan', 200);
     }

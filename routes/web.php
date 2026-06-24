@@ -5,16 +5,13 @@ use App\Http\Controllers\{
     KategoriController,
     LaporanController,
     ProdukController,
-    MemberController,
     PengeluaranController,
-    PembelianController,
-    PembelianDetailController,
     PenjualanController,
     PenjualanDetailController,
     SettingController,
-    SupplierController,
     UserController,
     FinancialReportController,
+    AttendanceController,
 };
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
@@ -120,25 +117,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/produk/cetak-barcode', [ProdukController::class, 'cetakBarcode'])->name('produk.cetak_barcode');
         Route::resource('/produk', ProdukController::class);
 
-        Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
-        Route::post('/member/cetak-member', [MemberController::class, 'cetakMember'])->name('member.cetak_member');
-        Route::resource('/member', MemberController::class);
 
-        Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
-        Route::resource('/supplier', SupplierController::class);
 
         Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
         Route::resource('/pengeluaran', PengeluaranController::class);
-
-        Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
-        Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
-        Route::resource('/pembelian', PembelianController::class)
-            ->except('create');
-
-        Route::get('/pembelian_detail/{id}/data', [PembelianDetailController::class, 'data'])->name('pembelian_detail.data');
-        Route::get('/pembelian_detail/loadform/{diskon}/{total}', [PembelianDetailController::class, 'loadForm'])->name('pembelian_detail.load_form');
-        Route::resource('/pembelian_detail', PembelianDetailController::class)
-            ->except('create', 'show', 'edit');
 
         Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
@@ -157,6 +139,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/transaksi/loadform/{diskon}/{total}/{diterima}', [PenjualanDetailController::class, 'loadForm'])->name('transaksi.load_form');
         Route::resource('/transaksi', PenjualanDetailController::class)
             ->except('create', 'show', 'edit');
+
+        Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+        Route::post('/attendance/clock-out/{id}', [AttendanceController::class, 'clockOut'])->name('attendance.clock_out');
     });
 
     Route::group(['middleware' => 'level:1'], function () {

@@ -519,6 +519,8 @@ body.modern-app {
         transform: translateX(0);
         width: 260px;
         opacity: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .modern-shell.modern-sidebar-collapsed .modern-sidebar::before {

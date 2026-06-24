@@ -38,122 +38,106 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-12">
-        <div class="box">
-            <div class="box-body">
-                    
-                <form class="form-produk">
-                    @csrf
-                    <div class="form-group row">
-                        <label for="kode_produk" class="col-lg-2">Kode Produk</label>
-                        <div class="col-lg-5">
-                            <div class="input-group">
-                                <input type="hidden" name="id_penjualan" id="id_penjualan" value="{{ $id_penjualan }}">
-                                <input type="hidden" name="id_produk" id="id_produk">
-                                <input type="text" class="form-control" name="kode_produk" id="kode_produk">
-                                <span class="input-group-btn">
-                                    <button onclick="tampilProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button>
-                                </span>
-                            </div>
+    <!-- Left Column: Menu Grid -->
+    <div class="col-lg-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-cutlery"></i> Pilih Menu</h3>
+            </div>
+            <div class="box-body" style="height: 75vh; overflow-y: auto;">
+                <div class="row">
+                    @foreach($produk as $p)
+                    <div class="col-md-6 col-sm-6 col-xs-12 mb-3" style="margin-bottom: 15px;">
+                        <div class="card" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff;" 
+                             onclick="pilihProduk('{{ $p->id_produk }}')" 
+                             onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)'" 
+                             onmouseout="this.style.boxShadow='none'">
+                            <div style="font-size: 3em; color: #f39c12;"><i class="fa fa-shopping-basket"></i></div>
+                            <h4 style="font-size: 1.1em; font-weight: bold; margin-top: 10px; min-height: 40px;">{{ $p->nama_produk }}</h4>
+                            <p class="text-success" style="font-weight: bold;">Rp. {{ format_uang($p->harga_jual) }}</p>
                         </div>
                     </div>
-                </form>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <table class="table table-stiped table-bordered table-penjualan">
+    <!-- Right Column: Cart & Payment -->
+    <div class="col-lg-6">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-shopping-cart"></i> Keranjang</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-striped table-bordered table-penjualan">
                     <thead>
                         <th width="5%">No</th>
                         <th>Kode</th>
                         <th>Nama</th>
                         <th>Harga</th>
-                        <th width="15%">Jumlah</th>
-                        <th>Diskon</th>
+                        <th width="15%">Jml</th>
                         <th>Subtotal</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="10%"><i class="fa fa-cog"></i></th>
                     </thead>
                 </table>
 
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="tampil-bayar bg-primary"></div>
-                        <div class="tampil-terbilang"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        <form action="{{ route('transaksi.simpan') }}" class="form-penjualan" method="post">
-                            @csrf
-                            <input type="hidden" name="id_penjualan" value="{{ $id_penjualan }}">
-                            <input type="hidden" name="total" id="total">
-                            <input type="hidden" name="total_item" id="total_item">
-                            <input type="hidden" name="bayar" id="bayar">
-                            <input type="hidden" name="id_member" id="id_member" value="{{ $memberSelected->id_member }}">
+                <div class="tampil-bayar bg-primary" style="margin-top: 15px; font-size: 3em; height: 80px; padding-top: 10px;"></div>
+                <div class="tampil-terbilang" style="margin-bottom: 15px;"></div>
 
-                            <div class="form-group row">
-                                <label for="totalrp" class="col-lg-2 control-label">Total</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="totalrp" class="form-control" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="kode_member" class="col-lg-2 control-label">Member</label>
-                                <div class="col-lg-8">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="kode_member" value="{{ $memberSelected->kode_member }}">
-                                        <span class="input-group-btn">
-                                            <button onclick="tampilMember()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="diskon" class="col-lg-2 control-label">Diskon</label>
-                                <div class="col-lg-8">
-                                    <input type="number" name="diskon" id="diskon" class="form-control" 
-                                        value="{{ ! empty($memberSelected->id_member) ? $diskon : 0 }}" 
-                                        readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="bayar" class="col-lg-2 control-label">Bayar</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="bayarrp" class="form-control" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="diterima" class="col-lg-2 control-label">Diterima</label>
-                                <div class="col-lg-8">
-                                    <input type="number" id="diterima" class="form-control" name="diterima" value="{{ $penjualan->diterima ?? 0 }}">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="kembali" class="col-lg-2 control-label">Kembali</label>
-                                <div class="col-lg-8">
-                                    <input type="text" id="kembali" name="kembali" class="form-control" value="0" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="metode" class="col-lg-2 control-label">Metode</label>
-                                <div class="col-lg-8">
-                                    <select name="metode" id="metode" class="form-control" required>
-                                        <option value="">Pilih Metode Pembayaran</option>
-                                        <option value="Cash">Cash</option>
-                                        <option value="Qris">Qris</option>
-                                        <option value="Transfer">Transfer</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
+                <form action="{{ route('transaksi.simpan') }}" class="form-penjualan" method="post">
+                    @csrf
+                    <input type="hidden" name="id_penjualan" value="{{ $id_penjualan }}">
+                    <input type="hidden" name="total" id="total">
+                    <input type="hidden" name="total_item" id="total_item">
+                    <input type="hidden" name="bayar" id="bayar">
+                    <input type="hidden" name="diskon" id="diskon" value="0">
+
+                    <div class="form-group row">
+                        <label for="totalrp" class="col-lg-3 control-label">Total</label>
+                        <div class="col-lg-9">
+                            <input type="text" id="totalrp" class="form-control" readonly>
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <label for="bayar" class="col-lg-3 control-label">Bayar</label>
+                        <div class="col-lg-9">
+                            <input type="text" id="bayarrp" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="diterima" class="col-lg-3 control-label">Diterima</label>
+                        <div class="col-lg-9">
+                            <input type="number" id="diterima" class="form-control" name="diterima" value="{{ $penjualan->diterima ?? 0 }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="kembali" class="col-lg-3 control-label">Kembali</label>
+                        <div class="col-lg-9">
+                            <input type="text" id="kembali" name="kembali" class="form-control" value="0" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="metode" class="col-lg-3 control-label">Metode</label>
+                        <div class="col-lg-9">
+                            <select name="metode" id="metode" class="form-control" required>
+                                <option value="">Pilih Metode Pembayaran</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Qris">Qris</option>
+                                <option value="Transfer">Transfer</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
             </div>
-
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary btn-sm btn-flat pull-right btn-simpan"><i class="fa fa-floppy-o"></i> Simpan Transaksi</button>
+                <button type="submit" class="btn btn-primary btn-block btn-lg btn-simpan"><i class="fa fa-floppy-o"></i> Simpan Transaksi</button>
             </div>
         </div>
     </div>
 </div>
 
-@includeIf('penjualan_detail.produk')
-@includeIf('penjualan_detail.member')
+@includeIf('penjualan_detail.options')
 @endsection
 
 @push('scripts')
@@ -175,7 +159,6 @@
                 {data: 'nama_produk'},
                 {data: 'harga_jual'},
                 {data: 'jumlah'},
-                {data: 'diskon'},
                 {data: 'subtotal'},
                 {data: 'aksi', searchable: false, sortable: false},
             ],
@@ -245,25 +228,21 @@
         });
     });
 
-    function tampilProduk() {
-        $('#modal-produk').modal('show');
+    function pilihProduk(id) {
+        $('#options_id_produk').val(id);
+        $('#modal-options').modal('show');
+        $('#form-options')[0].reset();
     }
 
-    function hideProduk() {
-        $('#modal-produk').modal('hide');
-    }
+    function submitOptions() {
+        if (!$('#form-options')[0].checkValidity()) {
+            $('#form-options')[0].reportValidity();
+            return;
+        }
 
-    function pilihProduk(id, kode) {
-        $('#id_produk').val(id);
-        $('#kode_produk').val(kode);
-        hideProduk();
-        tambahProduk();
-    }
-
-    function tambahProduk() {
-        $.post('{{ route('transaksi.store') }}', $('.form-produk').serialize())
+        $.post('{{ route('transaksi.store') }}', $('#form-options').serialize())
             .done(response => {
-                $('#kode_produk').focus();
+                $('#modal-options').modal('hide');
                 table.ajax.reload(() => loadForm($('#diskon').val()));
             })
             .fail(errors => {
@@ -272,22 +251,7 @@
             });
     }
 
-    function tampilMember() {
-        $('#modal-member').modal('show');
-    }
 
-    function pilihMember(id, kode) {
-        $('#id_member').val(id);
-        $('#kode_member').val(kode);
-        $('#diskon').val('{{ $diskon }}');
-        loadForm($('#diskon').val());
-        $('#diterima').val(0).focus().select();
-        hideMember();
-    }
-
-    function hideMember() {
-        $('#modal-member').modal('hide');
-    }
 
     function deleteData(url) {
         if (confirm('Yakin ingin menghapus data terpilih?')) {
