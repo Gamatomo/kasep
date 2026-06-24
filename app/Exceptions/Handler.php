@@ -37,6 +37,8 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
     /**
      * Render an exception into an HTTP response.
      *
