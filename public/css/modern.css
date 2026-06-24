@@ -495,6 +495,7 @@ body.modern-app {
         left: 0;
         top: 72px;
         bottom: 0;
+        height: calc(100vh - 72px) !important;
         width: 260px;
         z-index: 100;
         transform: translateX(-100%);
@@ -554,6 +555,7 @@ body.modern-app {
         width: 100%;
         top: 72px;
         bottom: 0;
+        height: calc(100vh - 72px) !important;
         overflow-y: scroll !important;
         overflow-x: hidden !important;
         -webkit-overflow-scrolling: touch !important;
@@ -743,6 +745,8 @@ body.modern-app {
     }
 
     .modern-sidebar {
-        padding: 1rem 0.75rem;
+        top: 60px !important;
+        height: calc(100vh - 60px) !important;
+        padding: 1rem 0.75rem 120px 0.75rem !important;
     }
 }
