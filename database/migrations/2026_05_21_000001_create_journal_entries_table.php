@@ -14,7 +14,7 @@ class CreateJournalEntriesTable extends Migration
             $table->string('reference_number')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedInteger('id_cabang')->nullable();
-            $table->unsignedInteger('id_user')->nullable();
+            $table->unsignedBigInteger('id_user')->nullable();
             $table->timestamps();
 
             $table->foreign('id_cabang')->references('id')->on('cabang')->onDelete('set null');

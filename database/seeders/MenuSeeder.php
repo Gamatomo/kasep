@@ -78,7 +78,6 @@ class MenuSeeder extends Seeder
                     ['nama_produk' => $produk['nama_produk']],
                     [
                         'id_kategori' => $kategori->id_kategori,
-                        'id_cabang' => 1,
                         'kode_produk' => uniqid('P'),
                         'harga_beli' => 0,
                         'diskon' => 0,

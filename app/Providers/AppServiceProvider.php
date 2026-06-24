@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Pembelian;
 use App\Models\Penjualan;
 use App\Models\Pengeluaran;
 use App\Models\Setting;
-use App\Observers\PembelianObserver;
 use App\Observers\PenjualanObserver;
 use App\Observers\PengeluaranObserver;
 use Illuminate\Support\ServiceProvider;
@@ -39,7 +37,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Penjualan::observe(PenjualanObserver::class);
-        Pembelian::observe(PembelianObserver::class);
         Pengeluaran::observe(PengeluaranObserver::class);
     }
 }

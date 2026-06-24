@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CabangTableSeeder::class,
             UserTableSeeder::class,
             ChartOfAccountsTableSeeder::class,
+            MenuSeeder::class,
         ]);
     }
 }

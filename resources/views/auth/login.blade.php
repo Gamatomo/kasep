@@ -12,6 +12,12 @@
         </div>
 
         <form action="{{ route('login') }}" method="post" class="form-login">
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible" style="margin-top: 10px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ session('error') }}
+                </div>
+            @endif
             @csrf
             <div class="form-group has-feedback @error('email') has-error @enderror">
                 <input type="email" name="email" class="form-control" placeholder="Email" required value="{{ old('email') }}" autofocus>

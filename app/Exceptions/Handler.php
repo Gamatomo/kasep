@@ -37,5 +37,21 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Throwable
+     */
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect()->back()->withInput($request->except('password', 'password_confirmation', '_token'))->with('error', 'Sesi halaman telah kedaluwarsa. Silakan coba lagi.');
+        }
+
+        return parent::render($request, $e);
     }
 }
