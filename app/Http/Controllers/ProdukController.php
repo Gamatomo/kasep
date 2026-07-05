@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Produk;
-use App\Models\Cabang;
 use PDF;
 
 class ProdukController extends Controller
@@ -18,18 +17,14 @@ class ProdukController extends Controller
     public function index()
     {
         $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-        $cabang = Cabang::all()->pluck('nama_cabang', 'id');
-        // dd($cabang);
-        // dd($kategori);
 
-        return view('produk.index', compact('kategori', 'cabang'));
+        return view('produk.index', compact('kategori'));
     }
 
    public function data()
 {
     $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
-        ->leftJoin('cabang', 'cabang.id', 'produk.id_cabang')
-        ->select('produk.*', 'nama_kategori', 'cabang.nama_cabang as nama_cabang')
+        ->select('produk.*', 'nama_kategori')
         ->orderBy('kode_produk', 'asc')
         ->get();
         // dd($produk);
@@ -54,9 +49,6 @@ class ProdukController extends Controller
         })
         ->addColumn('nama_kategori', function ($produk) {
             return $produk->nama_kategori;
-        })
-        ->addColumn('nama_cabang', function ($produk) {
-            return $produk->nama_cabang;
         })
         ->addColumn('aksi', function ($produk) {
             return '

@@ -60,7 +60,15 @@
                                     </label>
                                 </div>
                                 <div class="col-xs-4">
-                                    <input type="number" name="toppings[{{ $t->id_produk }}]" class="form-control input-sm" value="0" min="0">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" onclick="var input = this.parentNode.nextElementSibling; if(parseInt(input.value) > 0) input.value = parseInt(input.value) - 1;">-</button>
+                                        </span>
+                                        <input type="text" name="toppings[{{ $t->id_produk }}]" class="form-control text-center" value="0" readonly style="background-color: white;">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" onclick="var input = this.parentNode.previousElementSibling; input.value = parseInt(input.value) + 1;">+</button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             @endforeach

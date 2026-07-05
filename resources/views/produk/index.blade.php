@@ -32,7 +32,6 @@
                             <th>Kode</th>
                             <th>Nama</th>
                             <th>Kategori</th>
-                            <th>Cabang</th>
                             <th>Merk</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
@@ -67,7 +66,6 @@
                 {data: 'kode_produk'},
                 {data: 'nama_produk'},
                 {data: 'nama_kategori'},
-                {data: 'nama_cabang'},
                 {data: 'merk'},
                 {data: 'harga_beli'},
                 {data: 'harga_jual'},

@@ -35,7 +35,7 @@ class PenjualanDetailController extends Controller
             if (auth()->user()->level == 1) {
                 return redirect()->route('transaksi.baru');
             } else {
-                return redirect()->route('home');
+                return redirect()->route('transaksi.baru');
             }
         }
     }
