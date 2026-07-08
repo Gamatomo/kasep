@@ -31,6 +31,20 @@
                 </a>
             </li>
 
+            <li class="modern-sidebar-section">MANUFAKTUR (BOM)</li>
+            <li>
+                <a href="{{ route('bahan_baku.index') }}">
+                    <i class="fa fa-leaf"></i>
+                    <span>Bahan Baku</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('resep.index') }}">
+                    <i class="fa fa-book"></i>
+                    <span>Resep (BOM)</span>
+                </a>
+            </li>
+
             <li class="modern-sidebar-section">TRANSAKSI</li>
             <li>
                 <a href="{{ route('pengeluaran.index') }}">

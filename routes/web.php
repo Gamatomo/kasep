@@ -122,6 +122,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
         Route::resource('/pengeluaran', PengeluaranController::class);
 
+        // Bahan Baku & Resep
+        Route::get('/bahan_baku/data', [\App\Http\Controllers\BahanBakuController::class, 'data'])->name('bahan_baku.data');
+        Route::resource('/bahan_baku', \App\Http\Controllers\BahanBakuController::class);
+        
+        Route::get('/resep', [\App\Http\Controllers\ResepController::class, 'index'])->name('resep.index');
+        Route::get('/resep/{id_produk}', [\App\Http\Controllers\ResepController::class, 'detail'])->name('resep.detail');
+        Route::post('/resep', [\App\Http\Controllers\ResepController::class, 'store'])->name('resep.store');
+        Route::delete('/resep/{id}', [\App\Http\Controllers\ResepController::class, 'destroy'])->name('resep.destroy');
+
         Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
         Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');

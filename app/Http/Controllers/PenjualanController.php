@@ -87,8 +87,19 @@ class PenjualanController extends Controller
         foreach ($detail as $item) {
             $produk = Produk::find($item->id_produk);
             if ($produk) {
-                $produk->stok -= $item->jumlah;
-                $produk->update();
+                // BOM logic: Check if product has a recipe
+                if ($produk->resep->count() > 0) {
+                    foreach ($produk->resep as $r) {
+                        if ($r->bahan_baku) {
+                            $r->bahan_baku->stok -= ($r->jumlah * $item->jumlah);
+                            $r->bahan_baku->update();
+                        }
+                    }
+                } else {
+                    // Fallback to regular product stock if no recipe
+                    $produk->stok -= $item->jumlah;
+                    $produk->update();
+                }
             }
         }
 
@@ -128,8 +139,17 @@ class PenjualanController extends Controller
         foreach ($detail as $item) {
             $produk = Produk::find($item->id_produk);
             if ($produk) {
-                $produk->stok += $item->jumlah;
-                $produk->update();
+                if ($produk->resep->count() > 0) {
+                    foreach ($produk->resep as $r) {
+                        if ($r->bahan_baku) {
+                            $r->bahan_baku->stok += ($r->jumlah * $item->jumlah);
+                            $r->bahan_baku->update();
+                        }
+                    }
+                } else {
+                    $produk->stok += $item->jumlah;
+                    $produk->update();
+                }
             }
 
             $item->delete();
