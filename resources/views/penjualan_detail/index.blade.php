@@ -21,11 +21,80 @@
         display: none;
     }
 
-    @media(max-width: 768px) {
+    .transaksi-wrap .box-body {
+        padding: 12px;
+    }
+
+    .transaksi-wrap .table-penjualan {
+        font-size: 14px;
+    }
+
+    .transaksi-wrap .form-control,
+    .transaksi-wrap select.form-control {
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .transaksi-wrap .cash-chip {
+        min-height: 44px;
+        padding: 8px 14px;
+        font-size: 15px;
+        font-weight: 600;
+        flex: 1 1 auto;
+        white-space: nowrap;
+    }
+
+    .transaksi-wrap .btn-simpan {
+        min-height: 56px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .transaksi-wrap .control-label {
+        font-size: 15px;
+        font-weight: 600;
+        padding-top: 10px;
+    }
+
+    .transaksi-wrap .box-primary .card {
+        min-height: 110px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .transaksi-wrap .box-primary .card .fa-shopping-basket {
+        font-size: 2.4em;
+    }
+
+    .transaksi-wrap .box-primary .box-body {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Tablet portrait and smaller */
+    @media (max-width: 992px) {
+        .transaksi-wrap .tampil-bayar {
+            font-size: 2.4em;
+            height: 64px;
+            padding-top: 8px;
+        }
+
+        .transaksi-wrap .box-primary .box-body {
+            height: auto;
+            max-height: 50vh;
+        }
+    }
+
+    /* Phone-sized */
+    @media (max-width: 768px) {
         .tampil-bayar {
-            font-size: 3em;
-            height: 70px;
-            padding-top: 5px;
+            font-size: 2em;
+            height: 56px;
+            padding-top: 6px;
+        }
+
+        .transaksi-wrap .control-label {
+            padding-top: 0;
+            margin-bottom: 4px;
         }
     }
 </style>
@@ -37,9 +106,9 @@
 @endsection
 
 @section('content')
-<div class="row">
+<div class="row transaksi-wrap">
     <!-- Left Column: Menu Grid -->
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-cutlery"></i> Pilih Menu</h3>
@@ -64,7 +133,7 @@
     </div>
 
     <!-- Right Column: Cart & Payment -->
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-12">
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-shopping-cart"></i> Keranjang</h3>
@@ -109,6 +178,14 @@
                         <label for="diterima" class="col-lg-3 control-label">Diterima</label>
                         <div class="col-lg-9">
                             <input type="number" id="diterima" class="form-control" name="diterima" value="{{ $penjualan->diterima ?? 0 }}">
+                            <div class="quick-cash-chips" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;">
+                                <button type="button" class="btn btn-success cash-chip" data-amount="exact"><i class="fa fa-bolt"></i> Uang Pas</button>
+                                <button type="button" class="btn btn-default cash-chip" data-amount="5000">5.000</button>
+                                <button type="button" class="btn btn-default cash-chip" data-amount="10000">10.000</button>
+                                <button type="button" class="btn btn-default cash-chip" data-amount="20000">20.000</button>
+                                <button type="button" class="btn btn-default cash-chip" data-amount="50000">50.000</button>
+                                <button type="button" class="btn btn-default cash-chip" data-amount="100000">100.000</button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -225,6 +302,14 @@
 
         $('.btn-simpan').on('click', function () {
             $('.form-penjualan').submit();
+        });
+
+        $(document).on('click', '.cash-chip', function () {
+            var total = parseInt($('#total').val()) || 0;
+            var amt = $(this).data('amount');
+            var value = (amt === 'exact') ? total : Math.max(total, parseInt(amt));
+            $('#diterima').val(value).trigger('input').focus().select();
+            $('#metode').val('Cash');
         });
     });
 

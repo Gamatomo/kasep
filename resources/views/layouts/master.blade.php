@@ -80,39 +80,56 @@
             $(selector).append(`<img src="${window.URL.createObjectURL(temporaryFile)}" width="${width}">`);
         }
 
-        // Initialize sidebar toggle on page load
-        function initSidebarToggle() {
-            var sidebarToggle = document.querySelector('[data-action="toggle-sidebar"]');
-            var shell = document.querySelector('.modern-shell');
+                // Initialize sidebar toggle on page load
+                function initSidebarToggle() {
+                    var sidebarToggle = document.querySelector('[data-action="toggle-sidebar"]');
+                    var shell = document.querySelector('.modern-shell');
 
-            if (sidebarToggle && shell) {
-                // Remove any existing listeners by cloning and replacing
-                var newToggle = sidebarToggle.cloneNode(true);
-                sidebarToggle.parentNode.replaceChild(newToggle, sidebarToggle);
+                    function closeSidebar() {
+                        shell.classList.remove('modern-sidebar-collapsed');
+                        document.body.classList.remove('sidebar-open');
+                    }
 
-                // Add new event listener
-                newToggle.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    shell.classList.toggle('modern-sidebar-collapsed');
-                });
+                    if (sidebarToggle && shell) {
+                        // Remove any existing listeners by cloning and replacing
+                        var newToggle = sidebarToggle.cloneNode(true);
+                        sidebarToggle.parentNode.replaceChild(newToggle, sidebarToggle);
 
-                // Close sidebar when clicking on content area (mobile only)
-                var contentArea = document.querySelector('.modern-content-area');
-                if (contentArea) {
-                    contentArea.addEventListener('click', function(e) {
-                        var isMobile = window.innerWidth <= 992;
-                        if (isMobile && shell.classList.contains('modern-sidebar-collapsed')) {
-                            // Close sidebar if not clicking on sidebar
-                            var sidebar = document.querySelector('.modern-sidebar');
-                            if (sidebar && !sidebar.contains(e.target) && e.target !== newToggle) {
-                                shell.classList.remove('modern-sidebar-collapsed');
-                            }
+                        // Add new event listener
+                        newToggle.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            shell.classList.toggle('modern-sidebar-collapsed');
+                            document.body.classList.toggle('sidebar-open', shell.classList.contains('modern-sidebar-collapsed'));
+                        });
+
+                        // Close sidebar when clicking on content area (mobile only)
+                        var contentArea = document.querySelector('.modern-content-area');
+                        if (contentArea) {
+                            contentArea.addEventListener('click', function(e) {
+                                var isMobile = window.innerWidth <= 992;
+                                if (isMobile && shell.classList.contains('modern-sidebar-collapsed')) {
+                                    // Close sidebar if not clicking on sidebar
+                                    var sidebar = document.querySelector('.modern-sidebar');
+                                    if (sidebar && !sidebar.contains(e.target) && e.target !== newToggle) {
+                                        closeSidebar();
+                                    }
+                                }
+                            });
                         }
-                    });
+
+                        // Close sidebar when clicking the backdrop (mobile only)
+                        var sidebar = document.querySelector('.modern-sidebar');
+                        if (sidebar) {
+                            sidebar.addEventListener('click', function(e) {
+                                var isMobile = window.innerWidth <= 992;
+                                if (isMobile && e.target === sidebar) {
+                                    closeSidebar();
+                                }
+                            });
+                        }
+                    }
                 }
-            }
-        }
 
         // Run on DOM ready
         if (document.readyState === 'loading') {

@@ -496,16 +496,17 @@ body.modern-app {
         top: 72px;
         bottom: 0;
         height: calc(100vh - 72px) !important;
+        max-height: calc(100vh - 72px) !important;
         width: 260px;
         z-index: 100;
-        transform: translateX(-100%);
+        transform: translate3d(-100%, 0, 0);
         transition: transform 0.25s ease;
         box-shadow: 2px 0 10px rgba(15, 23, 42, 0.15);
-        overflow-y: scroll !important;
+        overflow-y: auto !important;
         overflow-x: hidden !important;
-        -webkit-overflow-scrolling: touch !important;
-        overscroll-behavior: contain !important;
-        touch-action: pan-y !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
         padding-bottom: 120px !important;
         box-sizing: border-box !important;
     }
@@ -525,16 +526,26 @@ body.modern-app {
     }
 
     .modern-shell.modern-sidebar-collapsed .modern-sidebar {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
         width: 260px;
         opacity: 1;
-        overflow-y: scroll !important;
-        overflow-x: hidden !important;
     }
 
     .modern-shell.modern-sidebar-collapsed .modern-sidebar::before {
         opacity: 1;
-        pointer-events: none;
+        pointer-events: auto;
+    }
+
+    /* On touch devices, prevent the page body from scrolling while the
+       sidebar is open so the user can only scroll within the sidebar. */
+    @media (pointer: coarse) {
+        body.sidebar-open {
+            overflow: hidden !important;
+        }
+        body.sidebar-open .modern-sidebar {
+            touch-action: pan-y !important;
+            overflow-y: auto !important;
+        }
     }
 
     .modern-main-layout {
@@ -556,21 +567,26 @@ body.modern-app {
         top: 72px;
         bottom: 0;
         height: calc(100vh - 72px) !important;
-        overflow-y: scroll !important;
+        max-height: calc(100vh - 72px) !important;
+        overflow-y: auto !important;
         overflow-x: hidden !important;
         -webkit-overflow-scrolling: touch !important;
         overscroll-behavior: contain !important;
         touch-action: pan-y !important;
         padding-bottom: 120px !important;
         box-sizing: border-box !important;
+        -webkit-overflow-scrolling: touch;
     }
 
     .modern-page-header h1 {
-        .dataTables_wrapper table {
-            min-width: 100% !important;
-            width: auto !important;
-            table-layout: auto !important;
-        }
+        font-size: 1.5rem;
+    }
+
+    .dataTables_wrapper table {
+        min-width: 100% !important;
+        width: auto !important;
+        table-layout: auto !important;
+    }
 
         .dataTables_wrapper table th,
         .dataTables_wrapper table td {
