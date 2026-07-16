@@ -522,7 +522,7 @@ body.modern-app {
         opacity: 0;
         transition: opacity 0.25s ease;
         pointer-events: none;
-        z-index: 99;
+        z-index: -1;
     }
 
     .modern-shell.modern-sidebar-collapsed .modern-sidebar {
