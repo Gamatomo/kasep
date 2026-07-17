@@ -10,6 +10,20 @@
     <li class="active">Detail</li>
 @endsection
 
+@push('css')
+<style>
+    @media (max-width: 768px) {
+        .dataTables_wrapper .table-resep th,
+        .dataTables_wrapper .table-resep td,
+        .table-resep th,
+        .table-resep td {
+            white-space: nowrap !important;
+            word-break: normal !important;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-lg-4">
@@ -49,7 +63,7 @@
                 <h3 class="box-title">Daftar Komponen Resep (BOM)</h3>
             </div>
             <div class="box-body table-responsive">
-                <table class="table table-stiped table-bordered">
+                <table class="table table-striped table-bordered table-resep">
                     <thead>
                         <th width="5%">No</th>
                         <th>Nama Bahan Baku</th>
